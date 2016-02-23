@@ -7,7 +7,7 @@ class StanfordCoreNLP:
             server_url = server_url[:-1]
         self.server_url = server_url
 
-    def annotate(self, text, properties=None):
+    def annotate(self, text, properties=None, response_encoding=None):
         if not properties:
             properties = {}
             
@@ -23,6 +23,10 @@ class StanfordCoreNLP:
             self.server_url, params={
                 'properties': str(properties)
             }, data=text)
+
+        if response_encoding is not None:
+            r.encoding = response_encoding
+
         output = r.text
         if ('outputFormat' in properties
              and properties['outputFormat'] == 'json'):
